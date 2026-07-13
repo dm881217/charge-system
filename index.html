@@ -3,103 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>裝備充電管理系統</title>
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 90%; max-width: 350px; text-align: center; }
-        select, button { width: 100%; padding: 14px; margin-top: 15px; font-size: 16px; border-radius: 8px; box-sizing: border-box; }
-        select { border: 1px solid #ccc; background-color: white; }
-        button { background-color: #06C755; color: white; border: none; font-weight: bold; cursor: pointer; }
-        #status { margin-top: 15px; font-size: 14px; font-weight: bold; color: #888; }
-    </style>
+    <title>充電系統</title>
 </head>
 <body>
-    <div class="card">
-        <h2>⚡ 裝備充電登錄</h2>
-        <select id="batteryId">
-            <option value="" disabled selected>請選擇充電裝備...</option>
-            <optgroup label="91車裝備">
-                <option value="91車-電動擔架床-電池1">91車 - 電動擔架床 (電池 1)</option>
-                <option value="91車-電動擔架床-電池2">91車 - 電動擔架床 (電池 2)</option>
-                <option value="91車-LUCAS-電池3">91車 - LUCAS (電池 3)</option>
-                <option value="91車-LUCAS-電池4">91車 - LUCAS (電池 4)</option>
-                <option value="91車-ZOLL生命監測器-電池1">91車 - ZOLL生命監測器 (電池 1)</option>
-            </optgroup>
-            <optgroup label="92車裝備">
-                <option value="92車-電動擔架床-電池1">92車 - 電動擔架床 (電池 1)</option>
-                <option value="92車-電動擔架床-電池2">92車 - 電動擔架床 (電池 2)</option>
-                <option value="92車-LUCAS-電池1">92車 - LUCAS (電池 1)</option>
-                <option value="92車-LUCAS-電池2">92車 - LUCAS (電池 2)</option>
-                <option value="92車-生命監測器">92車 - 生命監測器 (電池)</option>
-            </optgroup>
-            <optgroup label="11車裝備">
-                <option value="11車-Makita圓盤切割機-電池1">11車 - Makita 圓盤切割機 (電池 1)</option>
-                <option value="11車-Makita圓盤切割機-電池2">11車 - Makita 圓盤切割機 (電池 2)</option>
-                <option value="11車-Makita新環場照明燈-電池1">11車 - Makita 新環場照明燈 (電池 1)</option>
-                <option value="11車-Makita新環場照明燈-電池2">11車 - Makita 新環場照明燈 (電池 2)</option>
-                <option value="11車-Dewalt軍刀鋸-電池1">11車 - Dewalt 軍刀鋸 (電池 1)</option>
-                <option value="11車-Dewalt軍刀鋸-電池2">11車 - Dewalt 軍刀鋸 (電池 2)</option>
-            </optgroup>
-            <!-- === 12車 裝備 === -->
-    <optgroup label="12車裝備">
-        <option value="12車-Makita圓盤切割機-電池1">12車 - Makita 圓盤切割機 (電池 1)</option>
-        <option value="12車-Makita圓盤切割機-電池2">12車 - Makita 圓盤切割機 (電池 2)</option>
-        <option value="12車-Makita移動式照明燈-電池1">12車 - Makita 移動式照明燈 (電池 1)</option>
-        <option value="12車-Makita移動式照明燈-電池2">12車 - Makita 移動式照明燈 (電池 2)</option>
-        <option value="12車-Milwaukee紅色環場照明燈-電池1">12車 - Milwaukee 紅色環場照明燈 (電池 1)</option>
-        <option value="12車-Dewalt軍刀鋸-電池1">12車 - Dewalt 軍刀鋸 (電池 1)</option>
-        <option value="12車-Dewalt軍刀鋸-電池2">12車 - Dewalt 軍刀鋸 (電池 2)</option>
-        <option value="12車-Holmatro破壞器材-電池1">12車 - Holmatro 破壞器材 (電池 1)</option>
-        <option value="12車-Holmatro破壞器材-電池2">12車 - Holmatro 破壞器材 (電池 2)</option>
-        <option value="12車-Holmatro破壞器材-電池3">12車 - Holmatro 破壞器材 (電池 3)</option>
-        <option value="12車-Holmatro破壞器材-電池4">12車 - Holmatro 破壞器材 (電池 4)</option>
-        <option value="12車-Holmatro破壞器材-電池5">12車 - Holmatro 破壞器材 (電池 5)</option>
-        <option value="12車-Holmatro破壞器材-電池6">12車 - Holmatro 破壞器材 (電池 6)</option>
-    </optgroup>
-    <!-- === 16車 裝備 === -->
-    <optgroup label="16車裝備">
-        <option value="16車-Dewalt9吋圓盤切割機-電池1">16車 - Dewalt 9吋圓盤切割機 (電池 1)</option>
-        <option value="16車-Dewalt9吋圓盤切割機-電池2">16車 - Dewalt 9吋圓盤切割機 (電池 2)</option>
-        <option value="16車-Milwaukee圓鋸機-電池1">16車 - Milwaukee 圓鋸機 (電池 1)</option>
-        <option value="16車-Milwaukee圓鋸機-電池2">16車 - Milwaukee 圓鋸機 (電池 2)</option>
-        <option value="16車-Milwaukee圓鋸機-電池3">16車 - Milwaukee 圓鋸機 (電池 3)</option>
-        <option value="16車-Milwaukee紅色環場照明燈-電池1">16車 - Milwaukee 紅色環場照明燈 (電池 1)</option>
-        <option value="16車-Milwaukee紅色環場照明燈-電池2">16車 - Milwaukee 紅色環場照明燈 (電池 2)</option>
-    </optgroup>
-    <!-- === 61車 裝備 === -->
-    <optgroup label="61車裝備">
-        <option value="61車-Makita風扇-電池1">61車 - Makita 風扇 (電池 1)</option>
-        <option value="61車-Makita風扇-電池2">61車 - Makita 風扇 (電池 2)</option>
-        <option value="61車-Makita風扇-電池3">61車 - Makita 風扇 (電池 3)</option>
-    </optgroup>
-        </select>
-        <button id="startBtn">開始充電登錄</button>
-        <div id="status">準備就緒</div>
-    </div>
+    <h2>⚡ 裝備充電登錄</h2>
+    <select id="batteryId">
+        <option value="91車-電池1">91車-電池1</option>
+        <option value="92車-電池1">92車-電池1</option>
+    </select>
+    <button id="startBtn">開始登錄</button>
+    <div id="status">準備就緒</div>
 
     <script>
-        const MY_GAS_URL = "https://script.google.com/macros/s/AKfycbzLKocLQ0D0I2pc2SekUZOOl2jQZnvlZ5jne9q-q8fL8v4B2Kpb5p5fJDE0QnJnlBxg/exec";
+        // 將此處換成你 GAS 重新部署後的 URL
+        const MY_GAS_URL = "https://script.google.com/macros/s/你的亂碼/exec";
 
-        window.onload = function() {
-            document.getElementById('startBtn').addEventListener('click', function() {
-                const batteryId = document.getElementById('batteryId').value;
-                if (!batteryId) { alert("請選擇裝備！"); return; }
-                const statusDiv = document.getElementById('status');
-                statusDiv.innerText = "正在傳送...";
-                fetch(MY_GAS_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ batteryId: batteryId })
-                }).then(() => {
-                    statusDiv.style.color = "#06C755";
-                    statusDiv.innerText = "✅ 登錄成功，值班台將收到通知。";
-                }).catch(() => {
-                    statusDiv.style.color = "red";
-                    statusDiv.innerText = "❌ 傳送失敗，請重試。";
-                });
+        document.getElementById('startBtn').addEventListener('click', function() {
+            const batteryId = document.getElementById('batteryId').value;
+            const status = document.getElementById('status');
+            status.innerText = "傳送中...";
+            
+            fetch(MY_GAS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ batteryId: batteryId })
+            }).then(() => {
+                status.innerText = "✅ 登錄成功";
+            }).catch(() => {
+                status.innerText = "❌ 傳送失敗";
             });
-        };
+        });
     </script>
 </body>
 </html>

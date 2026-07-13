@@ -55,26 +55,26 @@
     <script>
         const MY_GAS_URL = "https://script.google.com/macros/s/AKfycbwWney_yhQvA9ZAMPs4eZLCl78ZGJsDZJ8toojM5FEErTpRjDxNvDsBy1nFwJKGTNU2/exec";
 
-        document.getElementById('startBtn').addEventListener('click', function() {
-            const batteryId = document.getElementById('batteryId').value;
-            if (!batteryId) { alert("請選擇裝備！"); return; }
-
-            const statusDiv = document.getElementById('status');
-            statusDiv.innerText = "正在傳送...";
-
-            fetch(MY_GAS_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ batteryId: batteryId })
-            }).then(() => {
-                statusDiv.style.color = "#06C755";
-                statusDiv.innerText = "✅ 登錄成功，值班台將收到通知。";
-            }).catch(() => {
-                statusDiv.style.color = "red";
-                statusDiv.innerText = "❌ 傳送失敗，請重試。";
+        window.onload = function() {
+            document.getElementById('startBtn').addEventListener('click', function() {
+                const batteryId = document.getElementById('batteryId').value;
+                if (!batteryId) { alert("請選擇裝備！"); return; }
+                const statusDiv = document.getElementById('status');
+                statusDiv.innerText = "正在傳送...";
+                fetch(MY_GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ batteryId: batteryId })
+                }).then(() => {
+                    statusDiv.style.color = "#06C755";
+                    statusDiv.innerText = "✅ 登錄成功，值班台將收到通知。";
+                }).catch(() => {
+                    statusDiv.style.color = "red";
+                    statusDiv.innerText = "❌ 傳送失敗，請重試。";
+                });
             });
-        });
+        };
     </script>
 </body>
 </html>

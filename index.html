@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>裝備充電管理系統</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 90%; max-width: 350px; text-align: center; }
+        select, button { width: 100%; padding: 14px; margin-top: 15px; font-size: 16px; border-radius: 8px; box-sizing: border-box; }
+        select { border: 1px solid #ccc; background-color: white; }
+        button { background-color: #06C755; color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        #status { margin-top: 15px; font-size: 14px; font-weight: bold; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>⚡ 裝備充電登錄</h2>
+        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">請選擇正在充電的裝備，系統將於 30 分鐘後自動發送拔除提醒。</p>
+        
+        <div style="text-align: left;">
+            <label for="batteryId" style="font-size: 14px; font-weight: bold; color: #333;">選擇充電裝備：</label>
+            <select id="batteryId">
+                <option value="" disabled selected>請點擊展開選單...</option>
+                <!-- 在這裡可以修改你的裝備名稱 -->
+                <optgroup label="16車裝備">
+                    <option value="16車-圓盤1">16車-圓盤1</option>
+                    <option value="16車-圓盤2">16車-圓盤2</option>
+                </optgroup>
+                <optgroup label="值班台裝備">
+                    <option value="值班台-對講機1">值班台-對講機1</option>
+                </optgroup>
+            </select>
+        </div>
+        
+        <button id="startBtn" disabled>正在載入系統...</button>
+        <div id="status">初始化 LINE 系統中...</div>
+    </div>
+
+    <script>
+        // 請在這裡貼上你記事本裡的 LIFF ID 與 GAS URL (保留雙引號)
+        const MY_LIFF_ID = "2010680915-DBjBeJY4"; 
+        const MY_GAS_URL = "https://script.google.com/macros/s/AKfycbyKxLbSE4ZaQIhVpgIi_WyS_lICmW8UHy_WXdPu7DWj0btPcO-PRHXOUQbOMTd1fOyC/exec";
+
+        window.onload = function() {
+            liff.init({ liffId: MY_LIFF_ID }).then(() => {
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                } else {
+                    const startBtn = document.getElementById('startBtn');
+                    startBtn.innerText = "開始充電 (倒數30分)";
+                    startBtn.disabled = false;
+                    document.getElementById('status').innerText = "系統準備就緒！";
+                    startBtn.addEventListener('click', startTimerProcess);
+                }
+            }).catch(err => {
+                document.getElementById('status').innerText = "請在 LINE 內打開此網頁。";
+            });
+        };
+
+        function startTimerProcess() {
+            const batteryIdInput = document.getElementById('batteryId').value;
+            if (!batteryIdInput) {
+                alert("請務必選擇充電裝備！");
+                return;
+            }
+
+            const startBtn = document.getElementById('startBtn');
+            const statusDiv = document.getElementById('status');
+            startBtn.disabled = true; 
+            statusDiv.innerText = "正在傳送資料...";
+
+            liff.getProfile().then(profile => {
+                const payload = { userId: profile.userId, batteryId: batteryIdInput };
+
+                return fetch(MY_GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            }).then(() => {
+                statusDiv.style.color = "#06C755";
+                statusDiv.innerText = "✅ 登錄成功！30分鐘後將發送提醒。";
+                startBtn.innerText = "⏳ 計時中...";
+            }).catch(err => {
+                statusDiv.style.color = "red";
+                statusDiv.innerText = "❌ 傳送失敗，請重試。";
+                startBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
